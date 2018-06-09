@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<select id="year-select" onchange="showSelectedDay()">
+	</select>
+
+	<select id="month-select" onchange="">
+	</select>
+
+	<select id="day-select" onchange="showSelectedDay()" >
+	</select>
+
+	<select id="hour-select" onchange="showSelectedDay()">
+	</select>
+
+	<select id="minite-select" onchange="showSelectedDay()">
+	</select>
+
+	<select id="second-select" onchange="showSelectedDay()">
+	</select>
+
+	<p id="result-wrapper">现在距离 2001年1月1日星期X HH:MM:SS 还有 X 天 X 小时 X 分 X 秒</p>
+<!-- 当变更任何一个select选择时，更新 result-wrapper 的内容
+	当所选时间早于现在时间时，文案为 现在距离 "所选时间" 已经过去 xxxx
+	当所选时间晚于现在时间时，文案为 现在距离 "所选时间" 还有 xxxx
+	注意当前时间经过所选时间时候的文案变化
+	注意选择不同月份的时候，日期的可选范围不一样，比如1月可以选31天，11月只有30天，注意闰年
+	同样，需要注意，通过优雅的函数封装，使得代码更加可读且可维护 -->
+	<script type="text/javascript">
+		var yearSelect = document.getElementById('year-select');
+		var monthSelect = document.getElementById('month-select');
+		var daySelect = document.getElementById('day-select');
+		var hourSelect = document.getElementById('hour-select');
+		var miniteSelect = document.getElementById('minite-select');
+		var secondSelect = document.getElementById('second-select');
+		var year, month, day, hour, minite, second;
+
+		for (var i = 2000; i < 2033; i++) {
+			var node = document.createElement('option');
+			node.innerText = i;
+			node.setAttribute('value',i);
+			yearSelect.appendChild(node);
+		}
+		for (var i = 1; i < 13; i++) {
+			var node = document.createElement('option');
+			node.innerText = i;
+			node.setAttribute('value',i);
+			monthSelect.appendChild(node);
+		}
+		for (var i = 0; i < 24; i++) {
+			var node = document.createElement('option');
+			if (i < 10) {
+				i = "0" + String(i);
+				node.innerText = i;
+				node.setAttribute('value',i);
+				hourSelect.appendChild(node);
+			} else {
+				node.innerText = i;
+				node.setAttribute('value',i);
+				hourSelect.appendChild(node);
+			}
+		}	
+		monthSelect.onchange = function (){
+			if (monthSelect.value == 1 || monthSelect.value == 3 || monthSelect.value == 5 || monthSelect.value == 7 ||
+					monthSelect.value == 8 || monthSelect.value == 10 || monthSelect.value == 12) {
+				daySelect.options.length = 0;
+				for (var i = 1; i < 32; i++) {
+					var node = document.createElement('option');
+					node.innerText = i;
+					node.setAttribute('value',i);
+					daySelect.appendChild(node);
+				}
+			} else if (monthSelect.value == 4 || monthSelect.value == 6 || monthSelect.value == 9 || 
+					monthSelect.value == 11) {
+				daySelect.options.length = 0;
+				for (var i = 1; i < 31; i++) {
+					var node = document.createElement('option');
+					node.innerText = i;
+					node.setAttribute('value',i);
+					daySelect.appendChild(node);
+				}
+			} else if (yearSelect.value % 4 == 0 && monthSelect.value == 2) {
+				daySelect.options.length = 0;
+				for (var i = 1; i < 30; i++) {
+					var node = document.createElement('option');
+					node.innerText = i;
+					node.setAttribute('value',i);
+					daySelect.appendChild(node);
+				}
+			} else if (monthSelect.value == 2) {
+				daySelect.options.length = 0;
+				for (var i = 1; i < 29; i++) {
+					var node = document.createElement('option');
+					node.innerText = i;
+					node.setAttribute('value',i);
+					daySelect.appendChild(node);
+				}
+			}
+			month = monthSelect.value;
+			showSelectedDay();
+		} 	
+		for (var i = 0; i < 60; i++) {
+			var node = document.createElement('option');
+			if (i < 10) {
+				i = "0" + String(i);
+				node.innerText = i;
+				node.setAttribute('value',i);
+				miniteSelect.appendChild(node);
+			} else {
+				node.innerText = i;
+				node.setAttribute('value',i);
+				miniteSelect.appendChild(node);
+			}
+		}
+		for (var i = 0; i < 60; i++) {
+			var node = document.createElement('option');
+			if (i < 10) {
+				i = "0" + String(i);
+				node.innerText = i;
+				node.setAttribute('value',i);
+				secondSelect.appendChild(node);
+			} else {
+				node.innerText = i;
+				node.setAttribute('value',i);
+				secondSelect.appendChild(node);
+			}
+		}	
+
+		function onChangeYear(){
+			year = yearSelect.value;
+		}
+		// function onChangeMonth(){
+		// 	month = monthSelect.value;
+		// }
+		function onChangeDay(){
+			day = daySelect.value;
+		}
+		function onChangeHour(){
+			hour = hourSelect.value;
+		}
+		function onChangeMinite(){
+			minite = miniteSelect.value;
+		}
+		function onChangeSecond(){
+			second = secondSelect.value;
+		}
+
+		var basicTime;
+		function showSelectedDay(){	
+			onChangeYear();
+			// onChangeMonth();
+			onChangeDay();
+			onChangeHour();
+			onChangeMinite();
+			onChangeSecond();
+			basicTime = year + "年" + month + "月" + day + "日" + " " + hour + ":" + minite + ":" + second;
+			console.log(basicTime);
+		}
+
+
+	</script>
+</body>
+</html>

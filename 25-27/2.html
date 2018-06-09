@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+<!-- 在页面中显示当前日期及时间，按秒更新
+	格式为 YYYY 年 MM 月 DD 日 星期 D HH:mm:ss
+	注意位数的补齐，比如：
+	假设时间为2008年10月10日星期一的12点12分12秒，显示2008年10月10日星期一 12:12:12
+	假设时间为2008年1月1日星期一的3点2分2秒，显示2008年01月01日星期一 03:02:02
+	编码过程中，我们希望你注意对函数的封装，尽量让一个函数就做一个事情，而不要把所有的功能、代码揉在一起：
+
+	封装一个函数，来根据某个日期返回这一天是星期几
+	封装一个函数，把月、日、小时等出现个位数的情况前面补充0，补充为两位，比如1变为01
+	封装一个函数，把最后的日期时间，按照要求的格式进行包装
+	可能不止上面这些，尽可能地进行功能的解耦和拆解 -->
+<!-- 输出格式变为：2008-10-10 Monday 07:10:30 PM -->
+	<script type="text/javascript">
+		var myDate = new Date();
+		var week, nyr, sfm, d, apm;
+		d = myDate.toLocaleString('chinese',{hour12: false}).replace("/","年").replace("/","月").replace(" ","日");
+		d1 = myDate.toLocaleString();
+		
+		//返回这一天是星期几
+		function getWeek() {
+			week = myDate.getDay()
+			switch (week){
+				case 0:
+				  week="星期天";
+				  break;
+				case 1:
+				  week="星期一";
+				  break;
+				case 2:
+				  week="星期二";
+				  break;
+				case 3:
+				  week="星期三";
+				  break;
+				case 4:
+				  week="星期四";
+				  break;
+				case 5:
+				  week="星期五";
+				  break;
+				case 6:
+				  week="星期六";
+				  break;
+			}
+		}
+
+		//返回年月日
+		function getNyr() {
+			var space = d.indexOf("日");
+			nyr = d.slice(0,space+1);
+			var x1 = nyr.indexOf("年");
+			var x2 = nyr.indexOf("月");
+			var x3 = nyr.indexOf("日");
+
+			if (x2 - x1 == 2 && x3 - x2 == 2) {
+				nyr = nyr.replace("年","年0").replace("月","月0");
+			} else if (x2 - x1 == 3 && x3 - x2 == 2) {
+				nyr = nyr.replace("月","月0");
+			} else if (x2 - x1 == 2 && x3 - x2 == 3) {
+				nyr = nyr.replace("年","年0");
+			}
+		}
+		
+		//返回时分秒
+		function getSfm() {
+			var space = d.indexOf("日");
+			sfm = d.slice(space+1, )
+		}
+
+		//显示当前日期及事件
+		function getNow() {
+			getWeek();
+			getNyr();
+			getSfm();
+			d = nyr + week + " " + sfm;
+			console.log(d);
+		}
+
+		getNow();
+
+		function getWeek1() {
+			week = myDate.getDay()
+			switch (week){
+				case 0:
+				  week="Sunday";
+				  break;
+				case 1:
+				  week="Monday";
+				  break;
+				case 2:
+				  week="Tuesday";
+				  break;
+				case 3:
+				  week="Wednesday";
+				  break;
+				case 4:
+				  week="Thursday";
+				  break;
+				case 5:
+				  week="Friday";
+				  break;
+				case 6:
+				  week="Saturday";
+				  break;
+			}
+		}
+
+		function getNyr1() {
+			var space = d1.indexOf(" ");
+			nyr = d1.slice(0,space);
+			var x1 = nyr.indexOf("/");
+			var x2 = nyr.lastIndexOf("/");
+			var x3 = nyr.length;
+
+			if (x2 - x1 == 2 ) {
+				nyr = nyr.replace("/","-0");
+			} else {
+				nyr = nyr.replace("/","-");
+			} 
+			if (x3 - x2 == 2 ) {
+				nyr = nyr.replace("/","-0");
+			} else {
+				nyr = nyr.replace("/","-");
+			} 
+		}
+
+		function getAPM() {
+			var x = d1.indexOf("午");
+			apm = d1.slice(x-1, x+1);
+			if (apm == "上午") {
+				apm = "AM"
+			} else {
+				apm = "PM"
+			}
+			
+		}
+
+		function getSfm1() {
+			var space = d1.indexOf("午");
+			sfm = d1.slice(space+1, )
+			//console.log(sfm);
+			var num = sfm.indexOf(":");
+			if (num == 1) {
+				sfm = "0" + sfm;
+			}
+		}
+
+		function getNow1() {
+			getWeek1();
+			getNyr1();
+			getSfm1();
+			getAPM();
+			d1 = nyr + " " + week + " " + sfm + " " + apm;
+			console.log(d1);
+		}
+
+		getNow1();
+	</script>
+</body>
+</html>
