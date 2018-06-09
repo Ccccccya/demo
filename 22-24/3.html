@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		/*
+		实现一个字符串头尾去除空格的函数
+		注意需要去除的空格，包括全角、半角空格
+		暂时不需要学习和使用正则表达式的方式
+		*/
+
+		function diyTrim(str) {
+		    var result = "";
+
+			for (var i = 0; i < str.length; i++) {
+			    if (str.charCodeAt(i) != 32 && str.charCodeAt(i) != 12288) {
+			    	var str1 = str.slice(i, str.length)
+
+			    	for (var j = str1.length - 1; j >= 0; j--) {
+			    		if (str1.charCodeAt(j) != 12288 && str1.charCodeAt(j) != 32){
+			    			result = str1.slice(0,j+1);
+			    			break;
+			    		}
+			    	}
+
+					break;
+			    }		   
+			}   
+		    return result;
+		}
+
+
+		/*
+		去掉字符串str中，连续重复的地方
+		*/
+	
+		function removeRepetition(str) {
+		    var result = "";
+
+			for (var i = 0; i < str.length; i++) {
+				if (str.slice(i,i+1) == str.slice(i+1,i+2)) {
+					str = str.slice(0,i+1) + str.slice(i+3,str.length);
+					result = str;
+				} else{
+					result = str;
+				}
+			}
+		    return result;
+		}
+
+	</script>
+</body>
+</html>
